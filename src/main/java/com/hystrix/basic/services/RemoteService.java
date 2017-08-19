@@ -34,7 +34,7 @@ public class RemoteService {
         try {
             Thread.sleep(sleepTime);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 }

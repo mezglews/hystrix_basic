@@ -1,46 +1,19 @@
 # Hystrix
 
-## 01. HystrixCommand
+## 00. Setup
+Maven dependency - includes rxjava
 Log4j configuration for logging thread name and time
-Every single call should be done in a new instance of hystrix command - they are not reusable.
 
-##### 1.1 observe() vs execute() vs queue()
+## 01. HystrixCommand
+##### synchronous vs asynchronous - observe() vs execute() vs queue()
  **observe()**
 `command.execute();`
 Blocking execution in hystrix thread
 
-**queue()**
-`Future<Void> future = command.queue();
-future.get();`
-NonBlocking execution until we call get() on future
+## 02. Resuability
+Every single call should be done in a new instance of hystrix command - they are not reusable.
 
-**toObservable() or observe()**
-NonBlocking - asynchronous
-Facade on HystrixCommand
-
-
-##### 1.2 HystrixObservableCommand - observe(), toObservable()
-`observe.subscribe(System.out::println);`
-NonBlocking execution - notify subscriber once new element coming in
-*Show that cannot execute() or queue() command*
-*Add one more element to the SimpleObservableCommand() to show that ObservableCommand can return more than one element*
-*Show which thread is used to run observable. observe() ignores hystrix threads and subscribeOn(). only toObservable() works*
-`observe.subscribeOn(Schedulers.io()).subscribe(System.out::println);`
-*FROM hystrix github: If you already have a non-blocking Observable, you don't need another thread*
-*JavaDOC: Used to wrap code that will execute potentially risky functionality (typically meaning a service call over the network) with fault and latency tolerance, statistics and performance metrics capture, circuit breaker and bulkhead functionality. This command should be used for a purely non-blocking call pattern. The caller of this command will be subscribed to the Observable returned by the run() method.*
-
-##### 1.3 Reusing command
-*Show that hystrix command cannot be reused what it was executed*
-`        try {
-             command.execute();
-             command.execute();
-         } catch (HystrixRuntimeException e) {
-             logger.error(e);
-         }
-         `
-
-##### 1.4 Hystrix observeOn() and subsequent operations
-*executing heavy operation - without observeOn everything is executed on hystrix thread*
+## 02. Exceptions
 
 
 ## 2. Command configuration
