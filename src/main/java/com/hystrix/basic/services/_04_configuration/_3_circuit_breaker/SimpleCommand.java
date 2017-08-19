@@ -17,7 +17,13 @@ public class SimpleCommand extends HystrixCommand<String> {
     public SimpleCommand(RemoteService remoteService, int timeout) {
 
         super(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("DefaultGroupName"))
-                .andCommandPropertiesDefaults(HystrixCommandProperties.Setter().withExecutionTimeoutInMilliseconds(timeout)));
+                .andCommandPropertiesDefaults(
+                        HystrixCommandProperties.Setter()
+                                .withExecutionTimeoutInMilliseconds(timeout)
+                                .withCircuitBreakerEnabled(true) //default true
+                                .withCircuitBreakerSleepWindowInMilliseconds(5000) //default 5000
+                )
+        );
 
         this.remoteService = remoteService;
     }

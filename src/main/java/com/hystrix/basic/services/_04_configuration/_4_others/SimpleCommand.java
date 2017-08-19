@@ -1,9 +1,7 @@
 package com.hystrix.basic.services._04_configuration._4_others;
 
 import com.hystrix.basic.services.RemoteService;
-import com.netflix.hystrix.HystrixCommand;
-import com.netflix.hystrix.HystrixCommandGroupKey;
-import com.netflix.hystrix.HystrixCommandProperties;
+import com.netflix.hystrix.*;
 import org.apache.log4j.Logger;
 
 /**
@@ -14,11 +12,12 @@ public class SimpleCommand extends HystrixCommand<String> {
 
     private final RemoteService remoteService;
 
-    public SimpleCommand(RemoteService remoteService, int timeout) {
+    public SimpleCommand(RemoteService remoteService) {
 
         super(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("DefaultGroupName"))
-                .andCommandPropertiesDefaults(HystrixCommandProperties.Setter().withExecutionTimeoutInMilliseconds(timeout)));
-
+                        .andCommandKey(HystrixCommandKey.Factory.asKey("CommandName"))
+                        .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey("ThreadPoolName"))
+        );
         this.remoteService = remoteService;
     }
 

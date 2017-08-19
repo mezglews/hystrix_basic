@@ -10,14 +10,13 @@ import org.apache.log4j.Logger;
 public class Main {
     private static final Logger LOG = Logger.getLogger(Main.class);
 
-    private static final int SLEEP_TIME = 3000;
-    private static final int TIMEOUT = 1000;
+    private static final int SLEEP_TIME = 0;
     private static final boolean SHOULD_NOT_FAIL = false;
 
     public static void main(String[] args) {
         RemoteService remoteService = new RemoteService(SLEEP_TIME, SHOULD_NOT_FAIL);
 
-        SimpleCommand command = new SimpleCommand(remoteService, TIMEOUT);
+        SimpleCommand command = new SimpleCommand(remoteService);
 
         LOG.info("About to execute command.");
         try {
