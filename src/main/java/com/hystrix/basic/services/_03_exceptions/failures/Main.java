@@ -1,4 +1,4 @@
-package com.hystrix.basic.services._03_exceptions;
+package com.hystrix.basic.services._03_exceptions.failures;
 
 import com.hystrix.basic.services.RemoteService;
 import com.netflix.hystrix.exception.HystrixRuntimeException;

@@ -19,23 +19,6 @@ Every single call should be done in a new instance of hystrix command - they are
 ##### 2 Threads - bulkhead
 Increase total request + 1 (more than total threads)  - show request execution rejection
 ##### 3 Circuit breaker
-
-
-## 2. Command configuration
-Run Main and show whats logged etc
-
-##### 2.1 Basic configuration
-*andCommandKey()*
-Sets the name of the command executed - by default is the class name
-
-*andThreadPoolKey()*
-Default ThreadPoolName is taken from HystrixCommandGroupKey
-If we logically want these commands grouped together but want them isolated differently then we would use HystrixThreadPoolKey to give each of them a different thread-pool.
-
-*andThreadPoolPropertiesDefaults - coreSize()*
-Discussed in chapter 4 - settings for thread pool and command execution strategy
-
-#####2.2 CB properties
 https://raw.githubusercontent.com/wiki/Netflix/Hystrix/images/circuit-breaker-1280.png
 
 CB properties
@@ -59,64 +42,18 @@ The time in milliseconds after a HystrixCircuitBreaker trips open that it should
                                                   System.out.println(hystrixCircuitBreaker.allowRequest());*
 Show than we can query the state of the command (even future)
 
-## 3. Fallback
+##### 4 Other properties
+Explain command key / group key / thread pool key differences
+*andCommandKey()*
+Sets the name of the command executed - by default is the class name
+
+Default ThreadPoolName is taken from HystrixCommandGroupKey
+If we logically want these commands grouped together but want them isolated differently then we would use HystrixThreadPoolKey to give each of them a different thread-pool.
+
+
+## 05. Fallback
 Show exceptions when no fallback available and default response for command with fallback
 Will back to fallback when we discuss exceptions in hystrix
-Show how to get exception in fallback: `getFailedExecutionException()`
-
-## 4. Hystrix thread pools
-##### 4.1 own thread pools (coreSize, maximumSize with withAllowMaximumSizeToDivergeFromCoreSize, queueSize) rejections
-Modify coreSize to show how many tasks were executed
-
-`.withMaximumSize(3)
-.withAllowMaximumSizeToDivergeFromCoreSize(true)`
-Both properties has to be set together
-
-`withKeepAliveTimeMinutes()`
-If coreSize &lte; maximumSize then it sets the time when extra threads will go after they will be removed
-
-`withMaxQueueSize()`
-Adds the queue where command can be shelved for further execution
-
-`withQueueSizeRejectionThreshold()`
-Queue size rejection threshold is an artificial "max" size at which rejections will occur even if maxQueueSize has not been reached.
-MaxQueueSize is a size of BlockingQueue and cannot be changed. But you can change artificial max by setting queuesizeRejection threshold.
-
-Starting thread pool size is 1, core pool size is 5, max pool size is 10 and the queue is 100. As requests come in threads will be created up to 5, then tasks will be added to the queue until it reaches 100. When the queue is full new threads will be created up to maxPoolSize. Once all the threads are in use and the queue is full tasks will be rejected. As the queue reduces, so does the number of active threads.
-
-#####4.2 isolation strategy - semaphore vs thread
-THREAD: Execute the HystrixCommand.run() method on a separate thread and restrict concurrent executions using the thread-pool size.
-SEMAPHORE: Execute the HystrixCommand.run() method on the calling thread and restrict concurrent executions using the semaphore permit count.
-
-######4.2.1 - thread
-Show thread names used to execute commands
-
-`simpleCommand.queue();`
-Show rejected command when core size is exceeded
-
-`.withExecutionTimeoutInMilliseconds(200)`
-Timeout for command execution - default 1 second
-
-######4.2.1 - semaphore
-Show thread names used to execute command (no thread pool used)
-Show what will happen when provide different command key like using counter - use random
-`withExecutionIsolationSemaphoreMaxConcurrentRequests(10)`
-
-######4.2.3 - semaphore vs thread in terms of time out
-Show difference between thread isolation  and semaphore.
-For thread isolation a timeout will occur immediately after given time passed
-For semaphore task will finish (even long running)  and after execution timeout exception will occur
-
-
-#####4.3 ignoring rxjava observeOn() and subscribeOn() - executing observable in hystrixCommand, observeOn() execuites post hystrix in other thread
-Run without any operator - Executed in hystrix thread pool
-
-`.subscribeOn(Schedulers.computation())`
-Executed (emission) in hystrix thread pool - hystrix ignores this
-
-`.observeOn(Schedulers.computation())`
-Executes (emission) in hystrix thread pool. ObserveOn just changes the thread for other operators - post hystrix -  here for printing
-
 
 
 ## 5. Hystrix error handling
