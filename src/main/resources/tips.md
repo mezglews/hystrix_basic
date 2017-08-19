@@ -13,7 +13,12 @@ Blocking execution in hystrix thread
 ## 02. Resuability
 Every single call should be done in a new instance of hystrix command - they are not reusable.
 
-## 02. Exceptions
+## 03. Exceptions
+## 04. Configuration
+##### 1 Timeout
+##### 2 Threads - bulkhead
+Increase total request + 1 (more than total threads)  - show request execution rejection
+##### 3 Circuit breaker
 
 
 ## 2. Command configuration
