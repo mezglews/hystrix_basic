@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 
 /**
  * User: Szymon Mezglewski
- * Date: 2017-08-19
  */
 public class SlowService {
     private static final Logger LOG = Logger.getLogger(SlowService.class);
