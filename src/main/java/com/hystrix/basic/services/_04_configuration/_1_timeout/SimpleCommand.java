@@ -3,6 +3,7 @@ package com.hystrix.basic.services._04_configuration._1_timeout;
 import com.hystrix.basic.services.RemoteService;
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
+import com.netflix.hystrix.HystrixCommandProperties;
 import org.apache.log4j.Logger;
 
 /**
@@ -15,8 +16,13 @@ public class SimpleCommand extends HystrixCommand<String> {
 
     public SimpleCommand(RemoteService remoteService, int timeout) {
         super(HystrixCommandGroupKey.Factory.asKey("HystrixCommandGroup"), timeout);
+
 //        super(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("DefaultGroupName"))
-//                .andCommandPropertiesDefaults(HystrixCommandProperties.Setter().withExecutionTimeoutInMilliseconds(timeout)));
+//                .andCommandPropertiesDefaults(
+//                        HystrixCommandProperties.Setter()
+//                                .withExecutionTimeoutInMilliseconds(timeout)
+//                )
+//        );
 
         this.remoteService = remoteService;
     }

@@ -11,10 +11,10 @@ public class Main {
     private static final Logger LOG = Logger.getLogger(Main.class);
 
     private static final int SLEEP_TIME = 0;
-    private static final boolean SHOULD_FAIL = false;
+    private static final boolean SHOULD_NOT_FAIL = false;
 
     public static void main(String[] args) {
-        RemoteService remoteService = new RemoteService(SLEEP_TIME, SHOULD_FAIL);
+        RemoteService remoteService = new RemoteService(SLEEP_TIME, SHOULD_NOT_FAIL);
 
         SimpleCommand command = new SimpleCommand(remoteService);
 

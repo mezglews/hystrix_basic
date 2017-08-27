@@ -3,6 +3,8 @@
 ## 00. Setup
 Maven dependency - includes rxjava
 Log4j configuration for logging thread name and time
+RemoteService - service for simulation timeouts or system failures
+SimpleCommandTemplate
 
 ## 01. HystrixCommand
 ##### synchronous vs asynchronous - observe() vs execute() vs queue()
