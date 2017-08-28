@@ -21,14 +21,14 @@ public class Main {
         RemoteService remoteService = new RemoteService(SLEEP_TIME, SHOULD_NOT_FAIL);
 
 
-        for(int i = 0; i< TOTAL_THREADS; i++) {
+        for(int i = 0; i< TOTAL_THREADS + 1; i++) {
             final AtomicInteger counter = new AtomicInteger(i);
 
             Thread tomcatThread = new Thread(() -> {
                 SimpleCommand command = new SimpleCommand(remoteService, TIMEOUT, TOTAL_THREADS);
                 LOG.info("About to execute command #" + counter);
                 try {
-                    command.observe();
+                    command.execute();
                 } catch (HystrixRuntimeException e) {
                     LOG.error("Command execution failure. Reason: " + e.getFailureType());
                 }
